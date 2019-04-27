@@ -5,10 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartException;
 
+import com.alibaba.fastjson.JSON;
 import com.binghe.shopping.common.bean.resp.CommonResp;
 import com.binghe.shopping.common.constants.BizEnum;
 import com.binghe.shopping.common.exception.BizException;
+import com.binghe.shopping.manage.common.bean.resp.PicUploadResp;
 
 @Slf4j
 @ControllerAdvice
@@ -26,5 +29,18 @@ public class BaseController {
     public CommonResp exceptionHandler(BizException e) {
         log.error("business exception>>>>>>>>>>>>>>>>>>>>>>>>>> code:{} || message:{}",e.getBizEnum().code,e.getBizEnum().message, e);
         return CommonResp.error(e.getBizEnum());
+    }
+    
+    /**
+     * 文件上传的异常
+     * @param e
+     * @param redirectAttributes
+     * @return
+     */
+    @ExceptionHandler(MultipartException.class)
+    @ResponseBody
+    public String handleError1(MultipartException e) {
+    	log.error("multipart exception>>>>>>>>>>>>>>>>>>>>>>>>>>", e);
+        return JSON.toJSONString(PicUploadResp.of().setError(1));
     }
 }

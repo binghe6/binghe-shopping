@@ -4,9 +4,26 @@ spring:
     cache: false
     # 让html标签书写校验不会那么严格
     mode: LEGACYHTML5
+  http:
+    multipart:
+      #默认支持文件上传
+      enabled: true 
+      #支持文件写入磁盘
+      file-size-threshold: 0 
+      # 最大支持文件大小
+      max-file-size: 1Mb 
+      # 最大支持多个文件总大小
+      max-request-size: 20Mb
 
 db:
   driverClassName: com.mysql.jdbc.Driver
   url: jdbc:mysql://localhost:3306/shopping?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true
   username: root
   password: Abc123D
+  
+upload:
+  # 上传的图片保存路径
+  repositoryPath: E:/upload
+  # 上传的图片服务器路径（通过nginx访问图片）
+  imageBaseUrl: http://image.shopping.com
+  

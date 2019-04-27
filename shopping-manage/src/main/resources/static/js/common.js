@@ -61,6 +61,7 @@ var TT = SHOPPING = {
     initPicUpload : function(data){
     	$(".picFileUpload").each(function(i,e){
     		var _ele = $(e);
+    		// 清空图片
     		_ele.siblings("div.pics").remove();
     		_ele.after('\
     			<div class="pics">\
@@ -75,11 +76,12 @@ var TT = SHOPPING = {
         			}
         		}
         	}
-        	$(e).click(function(){
-        		var form = $(this).parentsUntil("form").parent("form");
+        	$(e).unbind('click').click(function(){
+        		var form = $(this).parentsUntil("form").parent("form");// 找到父元素中最近的“form”
         		KindEditor.editor(TT.kingEditorParams).loadPlugin('multiimage',function(){
         			var editor = this;
         			editor.plugin.multiImageDialog({
+        				// 点击插入图片调用
 						clickFn : function(urlList) {
 							var imgArray = [];
 							KindEditor.each(urlList, function(i, data) {
