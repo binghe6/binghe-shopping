@@ -1,5 +1,5 @@
 <table class="easyui-datagrid" id="itemList" title="商品列表" 
-       data-options="singleSelect:false,collapsible:true,pagination:true,url:'/item',method:'get',pageSize:30,toolbar:toolbar">
+       data-options="singleSelect:false,collapsible:true,pagination:true,url:'/item/list',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
         <tr>
         	<th data-options="field:'ck',checkbox:true"></th>
@@ -11,8 +11,8 @@
             <th data-options="field:'num',width:70,align:'right'">库存数量</th>
             <th data-options="field:'barcode',width:100">条形码</th>
             <th data-options="field:'status',width:60,align:'center',formatter:SHOPPING.formatItemStatus">状态</th>
-            <th data-options="field:'created',width:130,align:'center',formatter:SHOPPING.formatDateTime">创建日期</th>
-            <th data-options="field:'updated',width:130,align:'center',formatter:SHOPPING.formatDateTime">更新日期</th>
+            <th data-options="field:'createTime',width:130,align:'center',formatter:SHOPPING.formatDateTime">创建日期</th>
+            <th data-options="field:'updateTime',width:130,align:'center',formatter:SHOPPING.formatDateTime">更新日期</th>
         </tr>
     </thead>
 </table>

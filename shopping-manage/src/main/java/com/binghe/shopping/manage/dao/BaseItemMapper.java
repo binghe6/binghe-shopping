@@ -1,5 +1,8 @@
 package com.binghe.shopping.manage.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.binghe.shopping.manage.pojo.BaseItem;
 
 public interface BaseItemMapper {
@@ -14,4 +17,6 @@ public interface BaseItemMapper {
     int updateByPrimaryKeySelective(BaseItem record);
 
     int updateByPrimaryKey(BaseItem record);
+
+	List<BaseItem> listByParam(Map<String, Object> param);
 }

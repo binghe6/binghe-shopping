@@ -17,6 +17,24 @@
   <sql id="Base_Column_List">
     id, title, sell_point, price, num, barcode, image, cid, status, create_time, update_time
   </sql>
+  
+	<!-- **************自定义sql*************** -->
+	<select id="listByParam" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from base_item
+		<where>
+			<!-- 表示状态不为此值 -->
+			<if test="status_not != null">
+				and status != #{status_not}
+			</if>
+			<if test="update_time_desc != null">
+				order by update_time desc
+			</if>
+		</where>
+	</select>
+	<!-- **************自定义sql*************** -->
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
