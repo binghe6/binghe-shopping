@@ -101,14 +101,21 @@
 		
 		//提交到后台的RESTful
 		$.ajax({
-		   type: "PUT",
-		   url: "/item",
+		   type: "POST",
+		   url: "/item/edit",
 		   data: $("#itemeEditForm").serialize(),
-		   success: function(msg){
-			   $.messager.alert('提示','修改商品成功!','info',function(){
-					$("#itemEditWindow").window('close');
-					$("#itemList").datagrid("reload");
-				});
+		   success: function(data){
+			   var _code = data.code;
+			   var _message = data.message;
+			   if(_code == 2000){
+				   $.messager.alert('提示','修改商品成功!','info',function(){
+						$("#itemEditWindow").window('close');
+						$("#itemList").datagrid("reload");
+					});
+			   }else{
+				   $.messager.alert('提示',_message);
+			   }
+			   
 		   },
 		   error: function(){
 			   $.messager.alert('提示','修改商品失败!');

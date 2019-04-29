@@ -19,4 +19,6 @@ public interface BaseItemCatMapper {
     int updateByPrimaryKey(BaseItemCat record);
 
 	List<BaseItemCat> listByParam(Map<String, Object> param);
+
+	BaseItemCat getByParam(Map<String, Object> param);
 }

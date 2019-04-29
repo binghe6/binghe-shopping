@@ -16,6 +16,48 @@
   <sql id="Blob_Column_List">
     item_desc
   </sql>
+  
+	<!-- **************自定义sql*************** -->
+	<select id="getByParam" resultMap="ResultMapWithBLOBs">
+		select
+			<include refid="Base_Column_List" />
+		    ,
+		    <include refid="Blob_Column_List" />
+		from base_item_desc
+		<where>
+			<if test="item_id != null">
+				and item_id = #{item_id}
+			</if>
+		</where>
+	</select>
+	<update id="updateByPrimaryKeySelective" parameterType="com.binghe.shopping.manage.pojo.BaseItemDesc">
+		update base_item_desc
+		<set>
+			<if test="itemId != null">
+				item_id = #{itemId,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="itemDesc != null">
+				item_desc = #{itemDesc,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<where>
+			<if test="id != null">
+				and id = #{id,jdbcType=BIGINT}
+			</if>
+			<if test="itemIdWhere != null">
+				and item_id = #{itemIdWhere,jdbcType=BIGINT}
+			</if>
+		</where>
+	</update>
+	<!-- **************自定义sql*************** -->
+  
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
@@ -71,24 +113,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.binghe.shopping.manage.pojo.BaseItemDesc">
-    update base_item_desc
-    <set>
-      <if test="itemId != null">
-        item_id = #{itemId,jdbcType=BIGINT},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="itemDesc != null">
-        item_desc = #{itemDesc,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+	
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.binghe.shopping.manage.pojo.BaseItemDesc">
     update base_item_desc
     set item_id = #{itemId,jdbcType=BIGINT},

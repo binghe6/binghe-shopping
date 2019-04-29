@@ -22,4 +22,19 @@ public interface IItemService {
 	 */
 	EasyUIResp listItem(int page, int rows);
 
+	/**
+	 * 通过商品ID查询商品描述
+	 * @param itemId
+	 * @return
+	 */
+	CommonResp getItemDescByItemId(long itemId);
+
+	/**
+	 * 编辑商品
+	 * @param item
+	 * @param itemDesc
+	 * @return
+	 */
+	CommonResp editItem(BaseItem item, String itemDesc);
+
 }

@@ -17,5 +17,7 @@ public class BaseItemDesc {
     private Date updateTime;
 
     private String itemDesc;
+    
+    private Long itemIdWhere;// 用于作为条件
 
 }

@@ -1,5 +1,7 @@
 package com.binghe.shopping.manage.dao;
 
+import java.util.Map;
+
 import com.binghe.shopping.manage.pojo.BaseItemDesc;
 
 public interface BaseItemDescMapper {
@@ -16,4 +18,6 @@ public interface BaseItemDescMapper {
     int updateByPrimaryKeyWithBLOBs(BaseItemDesc record);
 
     int updateByPrimaryKey(BaseItemDesc record);
+
+	BaseItemDesc getByParam(Map<String, Object> param);
 }

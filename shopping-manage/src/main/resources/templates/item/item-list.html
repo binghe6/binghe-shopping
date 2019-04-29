@@ -59,8 +59,14 @@
         			$("#itemeEditForm").form("load",data);
         			
         			// 加载商品描述
-        			$.getJSON('/item/desc/'+data.id,function(_data){
-        				itemEditEditor.html(_data.itemDesc);
+        			$.getJSON('/item/desc/get/'+data.id,function(_data){
+        				var _code = _data.code;
+        				var _message = _data.message;
+        				if(_code == 2000){
+        					itemEditEditor.html(_data.data.itemDesc);
+        				}else{
+        					$.messager.alert('提示', _message);
+        				}
         			});
         			
         			//加载商品规格
@@ -91,11 +97,21 @@
         				}
         			});
         			
-        			SHOPPING.init({
-        				"pics" : data.image,
-        				"cid" : data.cid,
-        				fun:function(node){
-        					SHOPPING.changeItemParam(node, "itemeEditForm");
+        			// 根据类目ID查询类目信息
+        			$.getJSON('/item/cat/get/'+data.cid,function(_data){
+        				var _code = _data.code;
+        				var _message = _data.message;
+        				if(_code == 2000){
+        					// 类目信息和图片信息回显
+        					SHOPPING.init({
+                				"pics" : data.image,
+                				"catName" : _data.data.name,
+                				fun:function(node){
+                					SHOPPING.changeItemParam(node, "itemeEditForm");
+                				}
+                			});
+        				}else{
+        					$.messager.alert('提示', _message);
         				}
         			});
         		}

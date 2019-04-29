@@ -62,4 +62,32 @@ public class ItemServiceImpl implements IItemService {
 		return new EasyUIResp(resultPage.getTotal(), itemList);
 	}
 
+	@Override
+	public CommonResp getItemDescByItemId(long itemId) {
+		log.info("get item desc, itemId:{}", itemId);
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("item_id", itemId);
+		BaseItemDesc itemDesc = itemDescMapper.getByParam(param);
+		log.info("get item desc success, itemDesc:{}", itemDesc);
+		return CommonResp.success(itemDesc);
+	}
+
+	@Override
+	public CommonResp editItem(BaseItem item, String itemDesc) {
+		log.info("edit item, item:{}, itemDesc:{}", item, itemDesc);
+		Date now = new Date();
+		// 确保状态和创建时间不被篡改
+		item.setStatus(null)
+			.setCreateTime(null)
+			.setUpdateTime(now);
+		itemMapper.updateByPrimaryKeySelective(item);
+		BaseItemDesc baseItemDesc = BaseItemDesc.of().setCreateTime(null)
+			.setUpdateTime(now)
+			.setItemDesc(itemDesc)
+			.setItemIdWhere(item.getId());
+		itemDescMapper.updateByPrimaryKeySelective(baseItemDesc);
+		log.info("edit item success, itemId:{}", item.getId());
+		return CommonResp.success();
+	}
+
 }

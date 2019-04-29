@@ -88,7 +88,7 @@ var TT = SHOPPING = {
 								imgArray.push(data.url);
 								form.find(".pics ul").append("<li><a href='"+data.url+"' target='_blank'><img src='"+data.url+"' width='80' height='50' /></a></li>");
 							});
-							form.find("[name=image]").val(imgArray.join(","));
+							form.find("[name=image]").val(data.pics+","+imgArray.join(","));
 							editor.hideDialog();
 						}
 					});
@@ -101,8 +101,8 @@ var TT = SHOPPING = {
     initItemCat : function(data){
     	$(".selectItemCat").each(function(i,e){
     		var _ele = $(e);
-    		if(data && data.cid){
-    			_ele.after("<span style='margin-left:10px;'>"+data.cid+"</span>");
+    		if(data && data.catName){
+    			_ele.after("<span style='margin-left:10px;'>"+data.catName+"</span>");
     		}else{
     			_ele.after("<span style='margin-left:10px;'></span>");
     		}

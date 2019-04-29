@@ -121,6 +121,9 @@
 			   var _message = data.message;// 返回信息
 			   $.messager.alert('提示', _message);
 		   }
+			error: function(){
+			   $.messager.alert('提示','添加商品失败!');
+		   }
 		});
 	}
 	
