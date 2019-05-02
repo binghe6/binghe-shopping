@@ -28,6 +28,9 @@
 			<if test="status != null">
 				and status = #{status}
 			</if>
+			<if test="sort_ordor_asc_name_asc != null">
+				order by sort_order asc, name asc
+			</if>
 		</where>
 	</select>
 	<select id="getByParam" resultMap="BaseResultMap">

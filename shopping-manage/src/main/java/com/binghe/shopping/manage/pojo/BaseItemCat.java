@@ -24,6 +24,8 @@ public class BaseItemCat {
     /* -----------------枚举---------------- */
     public static final int STATE_ON = 1;// 可用
     public static final int STATE_OFF = 0;// 不可用
+    public static final int FLAG_IS_PARENT = 1;// 是父目录
+    public static final int FLAG_NOT_PARENT = 0;// 不是父目录
     /* -----------------枚举---------------- */
     
     public Long getId() {

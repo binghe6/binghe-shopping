@@ -52,8 +52,8 @@
 <script type="text/javascript">
 	var contentAddEditor ;
 	$(function(){
-		contentAddEditor = TT.createEditor("#contentAddForm [name=content]");
-		TT.initOnePicUpload();
+		contentAddEditor = BH.createEditor("#contentAddForm [name=content]");
+		BH.initOnePicUpload();
 		$("#contentAddForm [name=categoryId]").val($("#contentCategoryTree").tree("getSelected").id);
 	});
 	
@@ -69,7 +69,7 @@
 					if(data.status == 200){
 						$.messager.alert('提示','新增内容成功!');
     					$("#contentList").datagrid("reload");
-    					TT.closeCurrentWindow();
+    					BH.closeCurrentWindow();
 					}
 				}); */
 				
@@ -81,7 +81,7 @@
 				   success: function(msg){
 					   $.messager.alert('提示','新增内容成功!');
    						$("#contentList").datagrid("reload");
-   						TT.closeCurrentWindow();
+   						BH.closeCurrentWindow();
 				   },
 				   error: function(){
 					   $.messager.alert('提示','新增内容失败!');

@@ -29,10 +29,10 @@
 			tableName:表名
 			domainObjectName:映射的实体类名称
 		 -->
-		<table tableName="base_item" domainObjectName="BaseItem"
+		<table tableName="base_item_param" domainObjectName="BaseItemParam"
 			enableCountByExample="false" enableSelectByExample="false" 
 			enableUpdateByExample="false" enableDeleteByExample="false"/>
-		<table tableName="base_item_desc" domainObjectName="BaseItemDesc"
+		<table tableName="base_item_param_item" domainObjectName="BaseItemParamItem"
 			enableCountByExample="false" enableSelectByExample="false" 
 			enableUpdateByExample="false" enableDeleteByExample="false"/>
 	</context>

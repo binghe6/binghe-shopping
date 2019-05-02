@@ -51,15 +51,24 @@
 				
 			  $.ajax({
 				   type: "GET",
-				   url: "/item/param/" + node.id,
-				   success: function(data){
-					   if(data){
-						  $.messager.alert("提示", "该类目已经添加，请选择其他类目。", undefined, function(){
-							 $("#itemParamAddTable .selectItemCat").click();
-						  });
-						  return ;
+				   url: "/item/param/get/" + node.id,
+				   success: function(_data){
+					  if(_data && _data.code == 2000){
+						  console.log("data:"+JSON.stringify(_data.data));
+						  if(JSON.stringify(_data.data) == "{}"){
+							  $(".addGroupTr").show();
+						  }else{
+							// 该商品类目对应的商品规格模版已存在
+							  $.messager.alert("提示", "该类目已经添加，请选择其他类目。", undefined, function(){
+								 $("#itemParamAddTable .selectItemCat").click();
+							  });
+							  return ;
+						  }
+					  }else{
+						  // 异常信息
+						  $.messager.alert("提示", _data.message);
 					  }
-					  $(".addGroupTr").show();
+					  
 				   },
 				   error: function(){
 					   alert("error");
@@ -107,12 +116,16 @@
 					});					
 				}
 			});
-			var url = "/item/param/"+$("#itemParamAddTable [name=cid]").val();
-			$.post(url,{"paramData":JSON.stringify(params)},function(data){
-				$.messager.alert('提示','新增商品规格成功!',undefined,function(){
-					$(".panel-tool-close").click();
-   					$("#itemParamList").datagrid("reload");
-   				});
+			var url = "/item/param/add/"+$("#itemParamAddTable [name=cid]").val();
+			$.post(url,{"paramData":JSON.stringify(params)},function(_data){
+				if(_data && _data.code == 2000){
+					$.messager.alert('提示','新增商品规格成功!',undefined,function(){
+						$(".panel-tool-close").click();
+	   					$("#itemParamList").datagrid("reload");
+	   				});
+				}else{
+					$.messager.alert('提示',_data.message);
+				}
 			});
 		});
 	});

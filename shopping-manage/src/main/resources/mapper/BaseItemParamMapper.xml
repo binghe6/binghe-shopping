@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.binghe.shopping.manage.dao.BaseItemParamMapper">
+  <resultMap id="BaseResultMap" type="com.binghe.shopping.manage.pojo.BaseItemParam">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="item_cat_id" jdbcType="BIGINT" property="itemCatId" />
+    <result column="item_cat_name" jdbcType="VARCHAR" property="itemCatName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.binghe.shopping.manage.pojo.BaseItemParam">
+    <result column="param_data" jdbcType="LONGVARCHAR" property="paramData" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, item_cat_id, item_cat_name, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    param_data
+  </sql>
+  
+	<!-- **************自定义sql*************** -->
+	<select id="listByParam" resultMap="ResultMapWithBLOBs">
+		select
+			<include refid="Base_Column_List" />
+		    ,
+		    <include refid="Blob_Column_List" />
+		from base_item_param
+	</select>
+	<select id="getByParam" resultMap="ResultMapWithBLOBs">
+		select
+			<include refid="Base_Column_List" />
+		    ,
+		    <include refid="Blob_Column_List" />
+		from base_item_param
+		<where>
+			<if test="item_cat_id != null">
+				and item_cat_id = #{item_cat_id}
+			</if>
+		</where>
+	</select>
+	<!-- **************自定义sql*************** -->
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from base_item_param
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from base_item_param
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.binghe.shopping.manage.pojo.BaseItemParam">
+    insert into base_item_param (id, item_cat_id, item_cat_name, 
+      create_time, update_time, param_data
+      )
+    values (#{id,jdbcType=BIGINT}, #{itemCatId,jdbcType=BIGINT}, #{itemCatName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{paramData,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.binghe.shopping.manage.pojo.BaseItemParam">
+    insert into base_item_param
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="itemCatId != null">
+        item_cat_id,
+      </if>
+      <if test="itemCatName != null">
+        item_cat_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="paramData != null">
+        param_data,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="itemCatId != null">
+        #{itemCatId,jdbcType=BIGINT},
+      </if>
+      <if test="itemCatName != null">
+        #{itemCatName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paramData != null">
+        #{paramData,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.binghe.shopping.manage.pojo.BaseItemParam">
+    update base_item_param
+    <set>
+      <if test="itemCatId != null">
+        item_cat_id = #{itemCatId,jdbcType=BIGINT},
+      </if>
+      <if test="itemCatName != null">
+        item_cat_name = #{itemCatName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paramData != null">
+        param_data = #{paramData,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.binghe.shopping.manage.pojo.BaseItemParam">
+    update base_item_param
+    set item_cat_id = #{itemCatId,jdbcType=BIGINT},
+      item_cat_name = #{itemCatName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      param_data = #{paramData,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.binghe.shopping.manage.pojo.BaseItemParam">
+    update base_item_param
+    set item_cat_id = #{itemCatId,jdbcType=BIGINT},
+      item_cat_name = #{itemCatName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

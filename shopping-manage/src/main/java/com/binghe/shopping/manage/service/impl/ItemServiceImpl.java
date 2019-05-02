@@ -16,8 +16,10 @@ import com.binghe.shopping.common.bean.resp.CommonResp;
 import com.binghe.shopping.common.bean.resp.EasyUIResp;
 import com.binghe.shopping.manage.dao.BaseItemDescMapper;
 import com.binghe.shopping.manage.dao.BaseItemMapper;
+import com.binghe.shopping.manage.dao.BaseItemParamItemMapper;
 import com.binghe.shopping.manage.pojo.BaseItem;
 import com.binghe.shopping.manage.pojo.BaseItemDesc;
+import com.binghe.shopping.manage.pojo.BaseItemParamItem;
 import com.binghe.shopping.manage.service.IItemService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -30,11 +32,13 @@ public class ItemServiceImpl implements IItemService {
 	private BaseItemMapper itemMapper;
 	@Autowired
 	private BaseItemDescMapper itemDescMapper;
+	@Autowired
+	private BaseItemParamItemMapper itemParamItemMapper;
 	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	@Override
-	public CommonResp addItem(BaseItem item, String itemDesc) {
-		log.info("add item, item:{}, desc:{}", item, itemDesc);
+	public CommonResp addItem(BaseItem item, String itemDesc, String itemParams) {
+		log.info("add item, item:{}, desc:{}, itemParams:{}", item, itemDesc, itemParams);
 		Date now = new Date();
 		item.setId(null)
 			.setStatus(BaseItem.STATUS_ON)
@@ -46,6 +50,11 @@ public class ItemServiceImpl implements IItemService {
 				.setCreateTime(now)
 				.setUpdateTime(now);
 		itemDescMapper.insert(baseItemDesc);
+		BaseItemParamItem itemParamItem = BaseItemParamItem.of().setItemId(item.getId())
+			.setParamData(itemParams)
+			.setCreateTime(now)
+			.setUpdateTime(now);
+		itemParamItemMapper.insert(itemParamItem);
 		log.info("add item success, itemId:{}", item.getId());
 		return CommonResp.success();
 	}
@@ -62,19 +71,10 @@ public class ItemServiceImpl implements IItemService {
 		return new EasyUIResp(resultPage.getTotal(), itemList);
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	@Override
-	public CommonResp getItemDescByItemId(long itemId) {
-		log.info("get item desc, itemId:{}", itemId);
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("item_id", itemId);
-		BaseItemDesc itemDesc = itemDescMapper.getByParam(param);
-		log.info("get item desc success, itemDesc:{}", itemDesc);
-		return CommonResp.success(itemDesc);
-	}
-
-	@Override
-	public CommonResp editItem(BaseItem item, String itemDesc) {
-		log.info("edit item, item:{}, itemDesc:{}", item, itemDesc);
+	public CommonResp editItem(BaseItem item, String itemDesc, String itemParams) {
+		log.info("edit item, item:{}, itemDesc:{}, itemParams:{}", item, itemDesc, itemParams);
 		Date now = new Date();
 		// 确保状态和创建时间不被篡改
 		item.setStatus(null)
@@ -86,7 +86,57 @@ public class ItemServiceImpl implements IItemService {
 			.setItemDesc(itemDesc)
 			.setItemIdWhere(item.getId());
 		itemDescMapper.updateByPrimaryKeySelective(baseItemDesc);
+		BaseItemParamItem itemParamItem = BaseItemParamItem.of().setItemId(item.getId())
+			.setParamData(itemParams)
+			.setUpdateTime(now);
+		itemParamItemMapper.updateByPrimaryKeySelective(itemParamItem);
 		log.info("edit item success, itemId:{}", item.getId());
+		return CommonResp.success();
+	}
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Override
+	public CommonResp deleteItemByIds(List<Long> ids) {
+		log.info("delete item, ids:{}", ids);
+		// 逻辑删除，把状态改为删除
+		Date now = new Date();
+		for (Long id : ids) {
+			// 删除商品
+			BaseItem item = BaseItem.of().setId(id)
+				.setStatus(BaseItem.STATUS_DEL)
+				.setUpdateTime(now);
+			itemMapper.updateByPrimaryKeySelective(item);
+		}
+		log.info("delete item success, ids:{}", ids);
+		return CommonResp.success();
+	}
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Override
+	public CommonResp instockItemByIds(List<Long> ids) {
+		log.info("instock item, ids:{}", ids);
+		Date now = new Date();
+		for (Long id : ids) {
+			// 下架
+			BaseItem item = BaseItem.of().setId(id)
+				.setStatus(BaseItem.STATUS_OFF)
+				.setUpdateTime(now);
+			itemMapper.updateByPrimaryKeySelective(item);
+		}
+		log.info("instock item success, ids:{}", ids);
+		return CommonResp.success();
+	}
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Override
+	public CommonResp reshelfItemByIds(List<Long> ids) {
+		log.info("reshelf item, ids:{}", ids);
+		Date now = new Date();
+		for (Long id : ids) {
+			// 上架
+			BaseItem item = BaseItem.of().setId(id)
+				.setStatus(BaseItem.STATUS_ON)
+				.setUpdateTime(now);
+			itemMapper.updateByPrimaryKeySelective(item);
+		}
+		log.info("reshelf item success, ids:{}", ids);
 		return CommonResp.success();
 	}
 

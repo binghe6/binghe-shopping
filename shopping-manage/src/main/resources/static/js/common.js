@@ -19,7 +19,7 @@ Date.prototype.format = function(format){
     return format; 
 };
 
-var TT = SHOPPING = {
+var BH = SHOPPING = {
 	// 编辑器参数
 	kingEditorParams : {
 		filePostName  : "uploadFile",
@@ -78,7 +78,7 @@ var TT = SHOPPING = {
         	}
         	$(e).unbind('click').click(function(){
         		var form = $(this).parentsUntil("form").parent("form");// 找到父元素中最近的“form”
-        		KindEditor.editor(TT.kingEditorParams).loadPlugin('multiimage',function(){
+        		KindEditor.editor(BH.kingEditorParams).loadPlugin('multiimage',function(){
         			var editor = this;
         			editor.plugin.multiImageDialog({
         				// 点击插入图片调用
@@ -88,7 +88,7 @@ var TT = SHOPPING = {
 								imgArray.push(data.url);
 								form.find(".pics ul").append("<li><a href='"+data.url+"' target='_blank'><img src='"+data.url+"' width='80' height='50' /></a></li>");
 							});
-							form.find("[name=image]").val(data.pics+","+imgArray.join(","));
+							form.find("[name=image]").val((data.pics ? data.pics : "") +((data.pics && imgArray.join(",")) ? "," : "")+imgArray.join(","));
 							editor.hideDialog();
 						}
 					});
@@ -143,7 +143,7 @@ var TT = SHOPPING = {
     },
     
     createEditor : function(select){
-    	return KindEditor.create(select, TT.kingEditorParams);
+    	return KindEditor.create(select, BH.kingEditorParams);
     },
     
     /**
@@ -186,10 +186,10 @@ var TT = SHOPPING = {
     },
     
     changeItemParam : function(node,formId){
-    	$.getJSON("/item/param/query/itemcatid/" + node.id,function(data){
-			  if(data.status == 200 && data.data){
+    	$.getJSON("/item/param/get/" + node.id,function(_data){
+			  if(_data.code == 2000 && _data.data){
 				 $("#"+formId+" .params").show();
-				 var paramData = JSON.parse(data.data.paramData);
+				 var paramData = JSON.parse(_data.data.paramData);
 				 var html = "<ul>";
 				 for(var i in paramData){
 					 var pd = paramData[i];
@@ -230,7 +230,7 @@ var TT = SHOPPING = {
     initOnePicUpload : function(){
     	$(".onePicUpload").click(function(){
 			var _self = $(this);
-			KindEditor.editor(TT.kingEditorParams).loadPlugin('image', function() {
+			KindEditor.editor(BH.kingEditorParams).loadPlugin('image', function() {
 				this.plugin.imageDialog({
 					showRemote : false,
 					clickFn : function(url, title, width, height, border, align) {

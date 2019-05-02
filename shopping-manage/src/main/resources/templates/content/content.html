@@ -46,7 +46,7 @@ var contentListToolbar = [{
     		$.messager.alert('提示','新增内容必须选择一个内容分类!');
     		return ;
     	}
-    	TT.createWindow({
+    	BH.createWindow({
 			url : "/page/content/content-add"
 		}); 
     }
@@ -54,7 +54,7 @@ var contentListToolbar = [{
     text:'编辑',
     iconCls:'icon-edit',
     handler:function(){
-    	var ids = TT.getSelectionsIds("#contentList");
+    	var ids = BH.getSelectionsIds("#contentList");
     	if(ids.length == 0){
     		$.messager.alert('提示','必须选择一个内容才能编辑!');
     		return ;
@@ -63,7 +63,7 @@ var contentListToolbar = [{
     		$.messager.alert('提示','只能选择一个内容!');
     		return ;
     	}
-		TT.createWindow({
+		BH.createWindow({
 			url : "/page/content/content-edit",
 			onLoad : function(){
 				var data = $("#contentList").datagrid("getSelections")[0];
@@ -85,7 +85,7 @@ var contentListToolbar = [{
     text:'删除',
     iconCls:'icon-cancel',
     handler:function(){
-    	var ids = TT.getSelectionsIds("#contentList");
+    	var ids = BH.getSelectionsIds("#contentList");
     	if(ids.length == 0){
     		$.messager.alert('提示','未选中商品!');
     		return ;

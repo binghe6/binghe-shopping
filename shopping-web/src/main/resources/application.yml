@@ -1,0 +1,10 @@
+spring:
+  thymeleaf:
+    # 关闭thymeleaf缓存 开发时使用 否则没有实时画面
+    cache: false
+    # 让html标签书写校验不会那么严格
+    mode: LEGACYHTML5
+
+server:
+  #服务端口
+  port: 8081  

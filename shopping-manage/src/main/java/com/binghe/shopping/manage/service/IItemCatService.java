@@ -21,4 +21,10 @@ public interface IItemCatService {
 	 */
 	CommonResp getItemCatByItemCatId(long itemCatId);
 
+	/**
+	 * 按首页需要的格式查询商品类目
+	 * @return
+	 */
+	String listAllItemCat(String callback);
+
 }
