@@ -45,3 +45,25 @@ CREATE TABLE `base_item_desc` (
   PRIMARY KEY (`id`),
   KEY `item_id` (`item_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='商品描述表';
+
+#商品规格参数
+CREATE TABLE `base_item_param` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `item_cat_id` bigint(20) NOT NULL COMMENT '商品类目ID',
+  `item_cat_name` varchar(50) NOT NULL COMMENT '商品类目名称（用于展示）',
+  `param_data` text NOT NULL COMMENT '参数数据，格式为json格式',
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `item_cat_id` (`item_cat_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='商品规则参数';
+
+CREATE TABLE `base_item_param_item` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `item_id` bigint(20) NOT NULL COMMENT '商品ID',
+  `param_data` text NOT NULL COMMENT '参数数据，格式为json格式',
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `item_id` (`item_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='商品规格和商品的关系表';
